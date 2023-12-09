@@ -5,9 +5,19 @@ const userModel = require("./users");
 /* GET home page. */
 
 router.get("/", function (req, res) {
-  req.session.ban = true;
+  // req.session.ban = true;
+  res.cookie("age", 22);
   res.render("index");
 });
+
+router.get("/readCookies", function (req, res) {
+  res.send(req.cookies);
+});
+router.get("/clearCookie", function (req, res) {
+  res.clearCookie("age");
+  res.send("cleared");
+});
+
 router.get("/checkBan", function (req, res) {
   if (req.session.ban == true) {
     res.send("You are banned bro!!");

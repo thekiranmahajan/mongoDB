@@ -3,8 +3,24 @@ var router = express.Router();
 const userModel = require("./users");
 
 /* GET home page. */
+
 router.get("/", function (req, res) {
+  req.session.ban = true;
   res.render("index");
+});
+router.get("/checkBan", function (req, res) {
+  if (req.session.ban == true) {
+    res.send("You are banned bro!!");
+  } else {
+    res.send("You are not banned!!");
+  }
+});
+
+router.get("/deleteSession", function (req, res) {
+  req.session.destroy(function (err) {
+    if (err) throw err;
+    res.send("You have deleted session");
+  });
 });
 
 // router.get("/create", async function (req, res) {
@@ -22,10 +38,10 @@ router.get("/", function (req, res) {
 //   res.send(allUsers);
 // });
 
-router.get("/oneUser", async function (req, res) {
-  let oneUser = await userModel.findOne({ username: "chomu" });
-  res.send(oneUser);
-});
+// router.get("/oneUser", async function (req, res) {
+//   let oneUser = await userModel.findOne({ username: "chomu" });
+//   res.send(oneUser);
+// });
 
 // router.get("/delete", async function (req, res) {
 //   let deletedUser = await userModel.findOneAndDelete({ username: "theRayOP" });
